@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
-import { Schema } from './../../node_modules/mongoose/types/index.d';
-import { First } from './../../node_modules/mongoose/types/expressions.d';
 
 const userSchema = new mongoose.Schema({
-
     email:{
         type: String,
         requires: true,
@@ -30,4 +27,6 @@ const userSchema = new mongoose.Schema({
     }
 )
 
-const userModel = mongoose.model("user", userSchema)
+const userModel = mongoose.model("user", userSchema);
+
+module.exports = userModel

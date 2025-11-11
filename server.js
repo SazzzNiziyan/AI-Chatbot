@@ -6,13 +6,6 @@ const httpServer = require('http').createServer(app);
 // const generateResponse = require("./src/service/ai.service")
 
 
-
-
-
-//   socket.on("disconnect", () => {
-//     console.log("A user disconnected")
-//   });
-  
 //   socket.on("ai-message", async (data) =>{
     
 //     console.log("received AI-Message")
