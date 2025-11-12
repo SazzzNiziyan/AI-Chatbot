@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser')
 const authRoutes = require('./routes/auth.routes');
 const chatRoutes = require("./routes/chat.routes");
 
-const app  = express();
+const app = express();
 
 /*using Middleware */
 app.use(express.json())
