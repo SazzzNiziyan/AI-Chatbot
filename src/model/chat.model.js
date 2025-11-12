@@ -10,15 +10,15 @@ const chatSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    lastActivity:{
+    lastActivity: {
         type: Date,
-        default: Date.now 
+        default: Date.now
     }
 },
     {
         timestamps: true
-})
+    })
 
-const chatModel = mongoose.model("chat",chatSchema)
+const chatModel = mongoose.model("chat", chatSchema)
 
 module.exports = chatModel; 

@@ -2,14 +2,14 @@ const userModel = require('../model/user.model');
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
-async function registerUser(req,res){
+async function registerUser(req, res) {
 
-    const {fullName:{firstName,lastName},email,password} = req.body;
+    const { fullName: { firstName, lastName }, email, password } = req.body;
 
-    const isUserAlreadyExists = await userModel.findone({email})
+    const isUserAlreadyExists = await userModel.findone({ email })
 
     if (isUserAlreadyExists) {
-        res.status(400).json({ message: "User already exists"});   
+        res.status(400).json({ message: "User already exists" });
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -19,48 +19,49 @@ async function registerUser(req,res){
             firstName, lastName
         },
         email,
-        password : hashPassword
+        password: hashPassword
     })
 
-    const token = jwt.sign({id : user._id} , process.env.JWT_SECRET)
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
 
     res.cookie("token", token)
 
 
     res.status(201).json({
-        message:"User registered succesfully",
-        user:{
-            email:user.email,
+        message: "User registered succesfully",
+        user: {
+            email: user.email,
             _id: user._id,
             fullName: user.fullName
-        }})
+        }
+    })
 }
 
-async function loginUser(req,res){
+async function loginUser(req, res) {
 
-    const{ email, password} = req.body;
+    const { email, password } = req.body;
 
     const user = await userModel.findone({
-        email 
+        email
     })
 
-    if(!user) {
-        return res.status(400).json({ message: "Invalid email or password"});
+    if (!user) {
+        return res.status(400).json({ message: "Invalid email or password" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if(!isPasswordValid){
-        return res.status(400).json({ message: "Invaid email or password"});
+    if (!isPasswordValid) {
+        return res.status(400).json({ message: "Invaid email or password" });
     }
 
-    const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
     res.cookie("token", token);
 
     res.status(200).json({
-        message:"user logged in succesfully",
-        user:{
+        message: "user logged in succesfully",
+        user: {
             email: user.email,
             _id: user._id,
             fullName: user.fullName

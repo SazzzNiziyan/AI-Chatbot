@@ -43,9 +43,9 @@ function initSocketServer(httpServer) {
                 role: "user"
             })
 
-            const chatHistory = await messageModel.find({
+            const chatHistory = (await messageModel.find({
                 chat: messagePayload.chat
-            })
+            }))
 
 
             const response = await aiServices.generateResponse(chatHistory.map(item => {

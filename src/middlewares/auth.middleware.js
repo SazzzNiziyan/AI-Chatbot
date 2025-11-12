@@ -2,11 +2,11 @@ const userModel = require('../model/user.model')
 const jwt = require('jsonwebtoken')
 
 async function authUser(req, res, next) {
-    
+
     const { token } = reqq.cookies;
 
-    if(!token){
-       return res.status(401).json({ message : 'Unauthoried'});
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthoried' });
     }
 
     try {
@@ -19,8 +19,8 @@ async function authUser(req, res, next) {
 
         next()
 
-    }catch(err){
-        res.status(401).json({ message : 'Unauthorised'});
+    } catch (err) {
+        res.status(401).json({ message: 'Unauthorised' });
     }
 }
 
