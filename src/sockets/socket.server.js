@@ -7,7 +7,7 @@ function initSocketServer(httpServer) {
 
     const io = new Server(httpServer, {});
 
-    io.use(async(socket, next) => {
+    io.use(async (socket, next) => {
 
         const cookies = cookie.parse(socket.handshake.headers?.cookie || "");
 
@@ -24,8 +24,8 @@ function initSocketServer(httpServer) {
             socket.user = user;
             next()
 
-        } catch (err){
-            next( new Error("Authentication error: Invalid token"));
+        } catch (err) {
+            next(new Error("Authentication error: Invalid token"));
         }
     })
 
