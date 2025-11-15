@@ -103,14 +103,25 @@ JWT_SECRET=
 AI_API_KEY=
 PORT=5000
 ```
+
 ### **🧩 API Endpoints**
 Auth
+```
+Method      |        Route         |     Description
+___________________________________________________________
+            |                      |
+POST        |       /auth/signup   |      Create a new user
+POST        |       /auth/login    |      Login & get token
+```
 
-`Method`            `Route`           `Description`
-`POST`,               `/auth/signup`      `Create a new user`
-POST,/auth/login,Login & get token`
-
-ChatMethodRouteDescriptionPOST/chat/sendSend message & get AI replyGET/chat/historyGet full conversation
+### **Chat**
+```
+Method      |        Route          |    Description
+____________________________________________________________________
+            |                       | 
+POST        |      /chat/send       |    Send message & get AI reply
+GET         |      /chat/history    |     Get full conversation
+```
 
 ### **🚀 How it Works (Quick Flow)**
 User logs in → JWT is created → Token is used for chat access →Message is saved in database → AI service generates reply →Socket.io pushes messages instantly →History is stored for retrieval.
