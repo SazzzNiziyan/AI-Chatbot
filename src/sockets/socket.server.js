@@ -1,9 +1,11 @@
 const { Server } = require("socket.io");
 const cookie = require("cookie");
 const jwt = require("jsonwebtoken");
-const userModal = require("../model/user.model")
+const userModel = require("../model/user.model")
 const aiServices = require("../service/ai.service")
 const messageModel = require("../model/message.model")
+const {createMemory , queryMemory} = require("../service/vector.service")
+
 
 function initSocketServer(httpServer) {
 
@@ -39,19 +41,31 @@ function initSocketServer(httpServer) {
             await messageModel.create({
                 chat: messagePayload.chat,
                 user: socket.user._id,
-                cotent: messagePayload.content,
+                content: messagePayload.content,
                 role: "user"
+            })
+
+
+            const vectors = await aiServices.generateVector(messagePayload.content)
+
+            await createMemory({
+                vectors,
+                messageId: "73847834",
+                metadata:{
+                    chat: messagePayload.chat,
+                    user: socket.user._id
+                }
             })
 
             const chatHistory = (await messageModel.find({
                 chat: messagePayload.chat
-            }).sort({ createdAt: -1 }).limit(40).lean()).reverse
+            }).sort({ createdAt: -1 }).limit(40).lean()).reverse()
 
 
             const response = await aiServices.generateResponse(chatHistory.map(item => {
                 return {
                     role: item.role,
-                    parts: [{ text: item.content }]
+                    parts: [{ text: item.content}]
                 }
             }))
 
@@ -62,6 +76,16 @@ function initSocketServer(httpServer) {
                 role: "model"
             })
 
+            const responseVectors = await aiServices.generateVector(response)
+
+            await createMemory({
+                vectors: responseVectors,
+                messageId: "73847835",
+                metadata:{
+                    chat: messagePayload.chat,
+                    user: socket.user._id
+                }
+            })
             socket.emit('ai-message', {
                 content: response,
                 chat: messagePayload.chat

@@ -6,7 +6,7 @@ async function registerUser(req, res) {
 
     const { fullName: { firstName, lastName }, email, password } = req.body;
 
-    const isUserAlreadyExists = await userModel.findone({ email })
+    const isUserAlreadyExists = await userModel.findOne({ email })
 
     if (isUserAlreadyExists) {
         res.status(400).json({ message: "User already exists" });
@@ -41,7 +41,7 @@ async function loginUser(req, res) {
 
     const { email, password } = req.body;
 
-    const user = await userModel.findone({
+    const user = await userModel.findOne({
         email
     })
 

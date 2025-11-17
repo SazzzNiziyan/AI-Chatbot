@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 async function authUser(req, res, next) {
 
-    const { token } = reqq.cookies;
+    const { token } = req.cookies;
 
     if (!token) {
         return res.status(401).json({ message: 'Unauthoried' });
@@ -13,7 +13,7 @@ async function authUser(req, res, next) {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        const user = await userModel.findbyId(decoded.id)
+        const user = await userModel.findById(decoded.id)
 
         req.user = user;
 
