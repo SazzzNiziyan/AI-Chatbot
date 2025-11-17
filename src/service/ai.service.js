@@ -4,11 +4,11 @@ const ai = new GoogleGenAI({})
 
 async function generateResponse(content) {
     const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash",
         contents: content,
     })
 
-    return response.text;
+    return response.text
 }
 
 async function generateVector(content) {

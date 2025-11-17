@@ -2,9 +2,9 @@ const { Server } = require("socket.io");
 const cookie = require("cookie");
 const jwt = require("jsonwebtoken");
 const userModel = require("../model/user.model")
-const aiServices = require("../service/ai.service")
+const aiService = require("../service/ai.service")
 const messageModel = require("../model/message.model")
-const {createMemory , queryMemory} = require("../service/vector.service")
+const { createMemory, queryMemory } = require("../service/vector.service")
 
 
 function initSocketServer(httpServer) {
@@ -25,7 +25,8 @@ function initSocketServer(httpServer) {
 
             const user = await userModel.findById(decoded.id);
 
-            socket.user = user;
+            socket.user = user
+
             next()
 
         } catch (err) {
@@ -38,7 +39,7 @@ function initSocketServer(httpServer) {
         socket.on("ai-message", async (messagePayload) => {
 
 
-            await messageModel.create({
+            const message = await messageModel.create({
                 chat: messagePayload.chat,
                 user: socket.user._id,
                 content: messagePayload.content,
@@ -46,47 +47,58 @@ function initSocketServer(httpServer) {
             })
 
 
-            const vectors = await aiServices.generateVector(messagePayload.content)
+            const vectors = await aiService.generateVector(messagePayload.content)
+
+            const memory = await queryMemory({
+                queryVector: vectors,
+                limit: 3,
+                metadata: {}
+            })
+
+            console.log("Retrieved memory:", memory);
 
             await createMemory({
                 vectors,
-                messageId: "73847834",
-                metadata:{
+                messageId: message._id,
+                metadata: {
                     chat: messagePayload.chat,
-                    user: socket.user._id
+                    user: socket.user._id,
+                    text: messagePayload.content
                 }
             })
 
             const chatHistory = (await messageModel.find({
                 chat: messagePayload.chat
-            }).sort({ createdAt: -1 }).limit(40).lean()).reverse()
+            }).sort({ createdAt: -1 }).limit(20).lean()).reverse()
 
 
-            const response = await aiServices.generateResponse(chatHistory.map(item => {
+            const response = await aiService.generateResponse(chatHistory.map(item => {
                 return {
                     role: item.role,
-                    parts: [{ text: item.content}]
+                    parts: [ { text: item.content } ]
                 }
             }))
 
-            await messageModel.create({
+            const responseMessage = await messageModel.create({
                 chat: messagePayload.chat,
                 user: socket.user._id,
                 content: response,
                 role: "model"
             })
 
-            const responseVectors = await aiServices.generateVector(response)
+            const responseVectors = await aiService.generateVector(response)
 
             await createMemory({
                 vectors: responseVectors,
-                messageId: "73847835",
-                metadata:{
+                messageId: responseMessage._id,
+                metadata: {
                     chat: messagePayload.chat,
-                    user: socket.user._id
+                    user: socket.user._id,
+                    text: response
+
                 }
             })
-            socket.emit('ai-message', {
+            socket.emit('ai-response', {
                 content: response,
                 chat: messagePayload.chat
             })
