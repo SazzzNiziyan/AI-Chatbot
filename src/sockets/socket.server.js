@@ -75,7 +75,7 @@ function initSocketServer(httpServer) {
             const response = await aiService.generateResponse(chatHistory.map(item => {
                 return {
                     role: item.role,
-                    parts: [ { text: item.content } ]
+                    parts: [{ text: item.content }]
                 }
             }))
 
