@@ -1,4 +1,4 @@
-<div align="center">
+8<div align="center">
 
 # 🚀 **AI Chatbot System**
 ### Real-Time • AI-Powered • Scalable • Modular
@@ -9,7 +9,7 @@ A clean and production-ready backend for building intelligent chat systems.
 
 </div>
 
-----
+---
 
 ## 🌟 **Overview**
 
