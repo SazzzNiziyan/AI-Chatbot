@@ -3,7 +3,7 @@ const cookie = require("cookie");
 const jwt = require("jsonwebtoken");
 const userModel = require("../model/user.model")
 const aiService = require("../service/ai.service")
-const messageModel = require("../model/message.model")
+const messageModel = require("../model/message.model") 
 const { createMemory, queryMemory } = require("../service/vector.service")
 
 
