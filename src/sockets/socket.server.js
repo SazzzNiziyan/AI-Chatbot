@@ -38,7 +38,7 @@ function initSocketServer(httpServer) {
 
         socket.on("ai-message", async (messagePayload) => {
 
-            const [message, vectors] = await Promise.all((
+            const [message, vectors] = await Promise.all([
                 messageModel.create({
                     chat: messagePayload.chat,
                     user: socket.user._id,
@@ -46,7 +46,7 @@ function initSocketServer(httpServer) {
                     role: "user"
                 }),
                 aiService.generateVector(messagePayload.content)
-            ))
+            ])
 
             await createMemory({
                     vectors,
