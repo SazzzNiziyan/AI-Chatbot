@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 // Enable CORS for frontend with credentials (cookies)
 app.use(
 	cors({
-		origin: process.env.FRONTEND_URL || true,
+		origin: "http://localhost:5173" || true,
 		credentials: true,
 	})
 )
