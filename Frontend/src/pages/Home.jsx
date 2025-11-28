@@ -52,7 +52,7 @@ const Home = () => {
     if (!title) return;
 
     const response = await axios.post(
-      "https://cohort-1-project-chat-gpt.onrender.com/api/chat",
+      "https://cohort-1-project-chat-gpt-o261.onrender.com/api/chat",
       {
         title,
       },
@@ -68,14 +68,14 @@ const Home = () => {
   // Ensure at least one chat exists initially
   useEffect(() => {
     axios
-      .get("https://cohort-1-project-chat-gpt.onrender.com/api/chat", {
+      .get("https://cohort-1-project-chat-gpt-o261.onrender.com/api/chat", {
         withCredentials: true,
       })
       .then((response) => {
         dispatch(setChats(response.data.chats.reverse()));
       });
 
-    const tempSocket = io("https://cohort-1-project-chat-gpt.onrender.com", {
+    const tempSocket = io("https://cohort-1-project-chat-gpt-o261.onrender.com", {
       withCredentials: true,
     });
 
@@ -132,7 +132,7 @@ const Home = () => {
 
   const getMessages = async (chatId) => {
     const response = await axios.get(
-      `https://cohort-1-project-chat-gpt.onrender.com/api/chat/messages/${chatId}`,
+      `https://cohort-1-project-chat-gpt-o261.onrender.com/api/chat/messages/${chatId}`,
       { withCredentials: true }
     );
 
