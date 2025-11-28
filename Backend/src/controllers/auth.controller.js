@@ -10,6 +10,7 @@ async function registerUser(req, res) {
 
     if (isUserAlreadyExists) {
         res.status(400).json({ message: "User already exists" });
+        return;
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -24,7 +25,11 @@ async function registerUser(req, res) {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
 
-    res.cookie("token", token)
+    res.cookie("token", token, {
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production'
+    })
 
 
     res.status(201).json({
