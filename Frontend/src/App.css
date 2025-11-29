@@ -9,7 +9,7 @@ body {
   height: 100%;
 }
 
-body {
+body { 
   margin: 0;
   font-family: var(--font-sans);
   background: var(--color-bg);
