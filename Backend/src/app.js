@@ -2,7 +2,7 @@ const express = require("express")
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const path = require('path')
-
+ 
 /* routes */
 const authRoutes = require('./routes/auth.routes');
 const chatRoutes = require("./routes/chat.routes");
