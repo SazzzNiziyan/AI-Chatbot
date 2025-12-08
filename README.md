@@ -7,7 +7,7 @@
 
 <img src="https://dummyimage.com/1200x280/000/ffffff&text=AI+Chatbot" width="100%" style="border-radius:10px;"/>
 
----
+--- 
 
 ## 🌟 What is AI-Chatbot?
 
