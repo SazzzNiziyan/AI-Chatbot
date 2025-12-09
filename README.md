@@ -4,7 +4,7 @@
 <sub>Built for production-grade scalability. Powered by Node.js, Express, MongoDB, Socket.io, JWT, and extendable AI integrations.</sub>
 
 ---
-
+ 
 <img src="https://dummyimage.com/1200x280/000/ffffff&text=AI+Chatbot" width="100%" style="border-radius:10px;"/>
 
 --- 
